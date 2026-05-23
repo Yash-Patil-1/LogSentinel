@@ -1,0 +1,101 @@
+# LogSentinel - Detection Rules Configuration
+# Each rule defines a detection pattern for a specific type of security threat.
+
+rules:
+  - rule_id: "DET-001"
+    title: "SSH Brute Force Attack"
+    description: "Multiple failed SSH login attempts from the same IP address within a short time window."
+    severity: "High"
+    log_source: "auth.log"
+    mitre_technique: "T1110"
+    mitre_name: "Brute Force"
+    detection_type: "threshold"
+    conditions:
+      event_type: "failed_login"
+      threshold: 5
+      time_window_seconds: 60
+    recommendation: "Review the source IP..."
+
+  - rule_id: "DET-002"
+    title: "Port Scan Detected"
+    description: "Connection attempts to multiple ports from a single IP address."
+    severity: "Medium"
+    log_source: "auth.log"
+    mitre_technique: "T1046"
+    mitre_name: "Network Service Scanning"
+    detection_type: "threshold"
+    conditions:
+      event_type: "connection"
+      threshold: 10
+      time_window_seconds: 60
+    recommendation: "Verify if the scanning IP belongs to a legitimate scanner."
+
+  - rule_id: "DET-003"
+    title: "SQL Injection Attempt"
+    description: "SQL keywords detected in HTTP request parameters."
+    severity: "Critical"
+    log_source: "access.log"
+    mitre_technique: "T1190"
+    mitre_name: "Exploit Public-Facing Application"
+    detection_type: "pattern"
+    conditions:
+      field: "path"
+      patterns:
+        - "(?i)(\\bor\\b|\\bunion\\b|\\bselect\\b|\\bdrop\\b|\\b--\\b|\\b'\\s*OR\\s*'\\s*=\\s*'|%27)|\\b1\\s*=\\s*1\\b"
+    recommendation: "Implement parameterized queries and input validation."
+
+  - rule_id: "DET-004"
+    title: "Cross-Site Scripting (XSS) Attempt"
+    description: "Script tags or JavaScript event handlers detected in HTTP request parameters."
+    severity: "Critical"
+    log_source: "access.log"
+    mitre_technique: "T1190"
+    mitre_name: "Exploit Public-Facing Application"
+    detection_type: "pattern"
+    conditions:
+      field: "path"
+      patterns:
+        - "(?i)(<script|<iframe|alert\\(|onerror=|onload=|javascript:|onclick=)"
+    recommendation: "Implement output encoding and Content-Security-Policy headers."
+
+  - rule_id: "DET-005"
+    title: "Privilege Escalation Attempt"
+    description: "Failed sudo attempts followed by successful sudo indicating privilege escalation behavior."
+    severity: "High"
+    log_source: "auth.log"
+    mitre_technique: "T1068"
+    mitre_name: "Exploitation for Privilege Escalation"
+    detection_type: "correlation"
+    conditions:
+      event_type: "sudo"
+      failure_keyword: "NOT in sudoers"
+      time_window_seconds: 300
+    recommendation: "Review the user's permissions and investigate unauthorized privilege escalation attempts."
+
+  - rule_id: "DET-006"
+    title: "Directory Traversal Attempt"
+    description: "Directory traversal patterns detected in URL paths."
+    severity: "High"
+    log_source: "access.log"
+    mitre_technique: "T1190"
+    mitre_name: "Exploit Public-Facing Application"
+    detection_type: "pattern"
+    conditions:
+      field: "path"
+      patterns:
+        - "\\.\\./|\\.\\.\\\\|%2e%2e%2f|%2e%2e\\|"
+    recommendation: "Implement proper path validation."
+
+  - rule_id: "DET-007"
+    title: "User Enumeration Attempt"
+    description: "Multiple failed login attempts with different usernames from the same IP."
+    severity: "Medium"
+    log_source: "auth.log"
+    mitre_technique: "T1589"
+    mitre_name: "Gather Victim Identity Information"
+    detection_type: "threshold"
+    conditions:
+      event_type: "failed_login"
+      unique_users_threshold: 3
+      time_window_seconds: 60
+    recommendation: "Consider rate-limiting login attempts."

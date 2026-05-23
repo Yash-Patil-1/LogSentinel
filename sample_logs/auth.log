@@ -1,0 +1,27 @@
+May 21 08:15:32 mailserver sshd[4521]: Failed password for root from 192.168.1.100 port 22 ssh2
+May 21 08:15:33 mailserver sshd[4521]: Failed password for root from 192.168.1.100 port 22 ssh2
+May 21 08:15:34 mailserver sshd[4521]: Failed password for root from 192.168.1.100 port 22 ssh2
+May 21 08:15:35 mailserver sshd[4521]: Failed password for root from 192.168.1.100 port 22 ssh2
+May 21 08:15:36 mailserver sshd[4521]: Failed password for root from 192.168.1.100 port 22 ssh2
+May 21 08:15:37 mailserver sshd[4521]: Failed password for root from 192.168.1.100 port 22 ssh2
+May 21 08:15:38 mailserver sshd[4521]: Failed password for admin from 192.168.1.100 port 22 ssh2
+May 21 08:15:39 mailserver sshd[4521]: Failed password for admin from 192.168.1.100 port 22 ssh2
+May 21 08:15:40 mailserver sshd[4521]: Failed password for test from 192.168.1.100 port 22 ssh2
+May 21 08:15:41 mailserver sshd[4521]: Failed password for user1 from 192.168.1.100 port 22 ssh2
+May 21 08:16:01 mailserver sshd[4522]: Connection from 10.0.0.50 port 54321
+May 21 08:16:02 mailserver sshd[4522]: Connection from 10.0.0.50 port 54322
+May 21 08:16:03 mailserver sshd[4522]: Connection from 10.0.0.50 port 54323
+May 21 08:16:04 mailserver sshd[4522]: Connection from 10.0.0.50 port 54324
+May 21 08:16:05 mailserver sshd[4522]: Connection from 10.0.0.50 port 54325
+May 21 08:16:06 mailserver sshd[4522]: Connection from 10.0.0.50 port 54326
+May 21 08:16:07 mailserver sshd[4522]: Connection from 10.0.0.50 port 54327
+May 21 08:16:08 mailserver sshd[4522]: Connection from 10.0.0.50 port 54328
+May 21 08:16:09 mailserver sshd[4522]: Connection from 10.0.0.50 port 54329
+May 21 08:16:10 mailserver sshd[4522]: Connection from 10.0.0.50 port 54330
+May 21 08:20:01 mailserver sudo: bob : TTY=pts/0 ; PWD=/home/bob ; USER=root ; COMMAND=/bin/su -
+May 21 08:20:02 mailserver sudo: alice : user NOT in sudoers ; TTY=pts/1 ; PWD=/home/alice ; USER=root ; COMMAND=/bin/su -
+May 21 08:20:03 mailserver sudo: alice : user NOT in sudoers ; TTY=pts/1 ; PWD=/home/alice ; USER=root ; COMMAND=/usr/bin/whoami
+May 21 08:20:04 mailserver sudo: alice : user NOT in sudoers ; TTY=pts/1 ; PWD=/home/alice ; USER=root ; COMMAND=/bin/cat /etc/shadow
+May 21 08:20:05 mailserver sudo: alice : TTY=pts/1 ; PWD=/home/alice ; USER=root ; COMMAND=/bin/su -
+May 21 08:25:01 mailserver sshd[4530]: Accepted password for john from 10.0.0.100 port 22 ssh2
+May 21 08:30:01 mailserver sshd[4535]: Failed password for invalid user ftp from 10.0.0.200 port 22 ssh2

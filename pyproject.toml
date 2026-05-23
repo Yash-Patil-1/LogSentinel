@@ -1,0 +1,56 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "logsentinel"
+version = "1.0.0"
+description = "SOC-grade CLI tool for log parsing, threat detection, alert correlation, and security report generation"
+readme = "README.md"
+authors = [
+    {name = "Yash Patil", email = "yashpatil7714@gmail.com"},
+]
+license = {text = "MIT"}
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Security",
+    "Topic :: System :: Monitoring",
+    "Topic :: System :: Logging",
+]
+keywords = ["security", "soc", "log-analysis", "threat-detection", "siem", "incident-response"]
+requires-python = ">=3.9"
+dependencies = [
+    "pyyaml>=6.0",
+    "jinja2>=3.0",
+    "matplotlib>=3.5",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/YashPatil/LogSentinel"
+BugTracker = "https://github.com/YashPatil/LogSentinel/issues"
+
+[project.scripts]
+logsentinel = "src.main:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
+
+[tool.setuptools.package-data]
+"src" = ["templates/*.html"]

@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ report_title }}</title>
+    <style>
+        :root {
+            --critical: #dc3545;
+            --high: #fd7e14;
+            --medium: #ffc107;
+            --low: #28a745;
+            --bg-dark: #0d1117;
+            --bg-card: #161b22;
+            --bg-hover: #1c2333;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --border: #30363d;
+            --accent: #58a6ff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 40px 20px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2em;
+            background: linear-gradient(135deg, var(--accent), #f97583);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .header .meta {
+            color: var(--text-secondary);
+            font-size: 0.95em;
+        }
+
+        .header .meta span { margin: 0 15px; }
+
+        /* Summary Cards */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .card .number {
+            font-size: 2.2em;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .card .label {
+            color: var(--text-secondary);
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 4px;
+        }
+
+        .card.critical .number { color: var(--critical); }
+        .card.high .number { color: var(--high); }
+        .card.medium .number { color: var(--medium); }
+        .card.low .number { color: var(--low); }
+
+        /* Section Titles */
+        .section-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin: 30px 0 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--accent);
+            display: inline-block;
+        }
+
+        /* Charts */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .chart-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        .chart-card h3 {
+            color: var(--text-secondary);
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .chart-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+
+        /* Top IPs */
+        .ip-list {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 30px;
+        }
+
+        .ip-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .ip-item:last-child { border-bottom: none; }
+
+        .ip-item .ip { font-family: 'SF Mono', monospace; color: var(--accent); }
+        .ip-item .count { color: var(--text-secondary); font-size: 0.9em; }
+
+        /* Alert Table */
+        .alert-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .alert-table thead {
+            background: var(--bg-card);
+        }
+
+        .alert-table th {
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .alert-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.95em;
+        }
+
+        .alert-table tbody tr {
+            transition: background 0.15s;
+        }
+
+        .alert-table tbody tr:hover {
+            background: var(--bg-hover);
+        }
+
+        .alert-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Severity Badge */
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .badge.critical { background: rgba(220,53,69,0.15); color: var(--critical); }
+        .badge.high { background: rgba(253,126,20,0.15); color: var(--high); }
+        .badge.medium { background: rgba(255,193,7,0.15); color: var(--medium); }
+        .badge.low { background: rgba(40,167,69,0.15); color: var(--low); }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-secondary);
+            font-size: 0.85em;
+            border-top: 1px solid var(--border);
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+            .summary-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .header h1 { font-size: 1.5em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>{{ report_title }}</h1>
+            <div class="meta">
+                <span>Scan: {{ scan_time }}</span>
+                <span>Events: {{ total_events }}</span>
+                <span>Alerts: {{ total_alerts }}</span>
+                {% if input_files %}
+                <span>Files: {{ input_files | join(', ') }}</span>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="summary-grid">
+            <div class="card critical">
+                <div class="number">{{ severity_counts.get('Critical', 0) }}</div>
+                <div class="label">Critical</div>
+            </div>
+            <div class="card high">
+                <div class="number">{{ severity_counts.get('High', 0) }}</div>
+                <div class="label">High</div>
+            </div>
+            <div class="card medium">
+                <div class="number">{{ severity_counts.get('Medium', 0) }}</div>
+                <div class="label">Medium</div>
+            </div>
+            <div class="card low">
+                <div class="number">{{ severity_counts.get('Low', 0) }}</div>
+                <div class="label">Low</div>
+            </div>
+        </div>
+
+        <!-- Charts -->
+        {% if charts %}
+        <div class="section-title">Visualization</div>
+        <div class="charts-grid">
+            {% if charts.severity_pie %}
+            <div class="chart-card">
+                <h3>Severity Distribution</h3>
+                <img src="{{ charts.severity_pie }}" alt="Severity Pie Chart">
+            </div>
+            {% endif %}
+            {% if charts.rule_breakdown %}
+            <div class="chart-card">
+                <h3>Alerts by Rule</h3>
+                <img src="{{ charts.rule_breakdown }}" alt="Rule Breakdown">
+            </div>
+            {% endif %}
+            {% if charts.alerts_timeline %}
+            <div class="chart-card">
+                <h3>Alert Timeline</h3>
+                <img src="{{ charts.alerts_timeline }}" alt="Alert Timeline">
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <!-- Top Source IPs -->
+        {% if top_ips %}
+        <div class="section-title">Top Source IPs</div>
+        <div class="ip-list">
+            {% for entry in top_ips %}
+            <div class="ip-item">
+                <span class="ip">{{ entry.ip }}</span>
+                <span class="count">{{ entry.alert_count }} alerts</span>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Alert Details Table -->
+        <div class="section-title">Alert Details</div>
+        <table class="alert-table">
+            <thead>
+                <tr>
+                    <th>Rule</th>
+                    <th>Title</th>
+                    <th>Severity</th>
+                    <th>Source IP</th>
+                    <th>Count</th>
+                    <th>Time</th>
+                    <th>MITRE</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for alert in alerts %}
+                <tr>
+                    <td><strong>{{ alert.rule_id }}</strong></td>
+                    <td>{{ alert.title }}</td>
+                    <td><span class="badge {{ alert.severity.lower() }}">{{ alert.severity }}</span></td>
+                    <td><code>{{ alert.source_ip if alert.source_ip else '—' }}</code></td>
+                    <td>{{ alert.count }}</td>
+                    <td>{{ alert.timestamp.strftime('%H:%M:%S') }}</td>
+                    <td><code>{{ alert.mitre_technique if alert.mitre_technique else '—' }}</code></td>
+                </tr>
+                {% endfor %}
+                {% if not alerts %}
+                <tr>
+                    <td colspan="7" style="text-align: center; padding: 40px; color: var(--text-secondary);">
+                        No security alerts were generated during this scan.
+                    </td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+
+        <!-- Footer -->
+        <div class="footer">
+            Generated by LogSentinel &bull; {{ generated_at }}
+        </div>
+    </div>
+</body>
+</html>
