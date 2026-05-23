@@ -221,7 +221,7 @@ This project is licensed under the MIT License.
 
 **Yash Patil** — Cybersecurity Analyst | SOC Operations & Incident Response
 - 📧 yashpatil7714@gmail.com
-- 🔗 [LinkedIn]([https://www.linkedin.com/in/yash-patil-997357330])
+- 🔗 [LinkedIn](https://www.linkedin.com/in/yash-patil-997357330)
 - 🐙 [GitHub](https://github.com/Yash-Patil-1)
 
 ---
