@@ -4,7 +4,7 @@
 
 ```bash
 # Clone the repository
-git clone https://github.com/YashPatil/LogSentinel.git
+git clone https://github.com/Yash-Patil-1/LogSentinel.git
 cd LogSentinel
 
 # Create a virtual environment

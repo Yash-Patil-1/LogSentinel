@@ -42,8 +42,8 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/YashPatil/LogSentinel"
-BugTracker = "https://github.com/YashPatil/LogSentinel/issues"
+Homepage = "https://github.com/Yash-Patil-1/LogSentinel"
+BugTracker = "https://github.com/Yash-Patil-1/LogSentinel/issues"
 
 [project.scripts]
 logsentinel = "src.main:main"

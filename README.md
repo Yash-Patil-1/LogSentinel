@@ -42,7 +42,7 @@ LogSentinel simulates a real-world **SOC L1 triage workflow**. It ingests raw lo
 
 ```bash
 # Clone the repository
-git clone https://github.com/YashPatil/LogSentinel.git
+git clone https://github.com/Yash-Patil-1/LogSentinel.git
 cd LogSentinel
 
 # Create a virtual environment (recommended)
